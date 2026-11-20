@@ -54,3 +54,8 @@ npm test
 - 本仓库不含原站数据、旧提交历史、运行凭据或外部媒体目录，也不连接原站。自行部署时，请为用户数据和举报附件设置留存与删除规则。
 
 按 [MIT 许可](LICENSE) 发布。
+
+
+上面的内容源自作者erhaerha66，网页https://github.com/erhaerha66/duet-rhythm-plus，本人仅提供win版本一键安装，望周知。
+
+
