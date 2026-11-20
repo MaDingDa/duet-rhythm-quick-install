@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0b15">
+  <meta name="description" content="双人节拍是一款简体中文停拍节奏游戏，支持偏好匹配、双人节奏控制、实时语音。">
+  <title>双人节拍 · 停拍互动游戏</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/mark.svg">
+  <script defer src="/boot.js"></script>
+  <script type="module" src="/app.js"></script>
+  <script type="module" src="/traffic.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="shell header-inner">
+      <button class="brand" data-action="lobby" aria-label="双人节拍，返回游戏大厅">
+        <span class="brand-mark" data-icon="wave"></span>
+        <span class="wordmark">双人节拍<span>DUET RHYTHM</span></span>
+      </button>
+      <nav class="nav" aria-label="主导航">
+        <button class="nav-link active" data-action="lobby">游戏大厅</button>
+        <button class="nav-link" data-action="guide">玩法说明</button>
+      </nav>
+      <div class="header-end">
+        <button class="icon-button quiet" data-action="settings" aria-label="声音设置" title="声音设置" data-icon="settings"></button>
+        <button class="profile" data-action="settings" title="游玩设置"><span class="avatar avatar-small" data-icon="user"></span><span id="profile-name">游客</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="shell" tabindex="-1">
+    <div id="lobby">
+      <p id="boot-status" class="social-panel" role="status" hidden>页面加载遇到问题。<a class="button outline" href="/">重新打开双人节拍</a></p>
+      <noscript><p class="social-panel">请在浏览器中开启 JavaScript 后重新加载页面。</p></noscript>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-art" aria-hidden="true"></div>
+        <div class="hero-content">
+          <h1 id="hero-title">跟着<span>节拍</span>玩</h1>
+          <p class="hero-detail">跟随提示加快、放慢，停顿时按「我已停拍」。</p>
+        </div>
+      </section>
+
+      <div id="lobby-notices" aria-live="polite" hidden></div>
+      <p id="moderation-notice" class="social-panel" role="status" hidden></p>
+      <section class="modes" aria-labelledby="modes-title">
+        <div class="section-label">
+          <h2 id="modes-title">选择玩法</h2>
+        </div>
+        <div class="mode-grid">
+          <article class="mode-card solo-card">
+            <span class="mode-icon" data-icon="target"></span>
+            <div class="mode-copy">
+              <h3>单人练习</h3>
+              <p>一个人熟悉快、慢、停三种节奏。</p>
+            </div>
+            <div class="mode-actions">
+              <button class="button primary" data-action="solo">开始练习</button>
+            </div>
+          </article>
+          <article class="mode-card friend-card">
+            <span class="mode-icon" data-icon="key"></span>
+            <div class="mode-copy">
+              <h3>好友房间</h3>
+              <p>建房邀请好友，或凭 6 位房间码加入。</p>
+            </div>
+            <div class="mode-actions">
+              <button class="button outline" data-action="create-friend">创建房间</button>
+              <button class="button outline" data-action="friend">加入房间</button>
+            </div>
+          </article>
+          <article class="mode-card">
+            <span class="mode-icon" data-icon="zap"></span>
+            <div class="mode-copy">
+              <h3>随机匹配</h3>
+              <p>按角色、时长和开麦偏好寻找搭档。</p>
+            </div>
+            <div class="mode-actions">
+              <button class="button outline" data-action="match">开始匹配</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <nav class="directory-nav" aria-label="大厅工具">
+        <button class="button outline" data-action="online-players" aria-controls="social" aria-expanded="false"><span data-icon="users"></span> 在线列表</button>
+        <button class="button outline" data-action="room-list" aria-controls="active-rooms" aria-expanded="false"><span data-icon="door"></span> 公开观战</button>
+        <button class="button outline" data-action="my-friends" aria-controls="social" aria-expanded="false"><span data-icon="user"></span> 我的好友<span id="friend-count" hidden></span></button>
+        <button class="button outline" data-action="open-history" aria-controls="round-history" aria-expanded="false"><span data-icon="clock"></span> 对局历史</button>
+      </nav>
+      <section id="social" class="social-panel" aria-labelledby="social-title" hidden>
+        <div class="social-heading"><h2 id="social-title" tabindex="-1">在线列表</h2>
+          <button class="icon-button" data-action="close-social" data-icon="close" aria-label="收起列表"></button></div>
+        <div id="online-options" class="directory-tools" hidden>
+          <fieldset id="online-filters">
+            <legend>筛选玩家</legend>
+            <div class="online-filter-selects">
+              <label class="field">公开性别<select id="online-gender"></select></label>
+              <label class="field">角色<select id="online-filter-role"></select></label>
+              <label class="field">开麦偏好<select id="online-filter-voice"></select></label>
+            </div>
+            <div class="online-filter-actions">
+              <label class="toggle"><input type="checkbox" id="online-compatible" aria-describedby="online-compatible-hint">只看与我匹配</label>
+              <button type="button" class="text-button" id="reset-online-filters" data-action="reset-online-filters" hidden>清除筛选</button>
+            </div>
+            <p id="online-compatible-hint">按已保存的角色、时长和开麦偏好筛选。</p>
+          </fieldset>
+          <details class="online-settings">
+            <summary>我的上线状态和偏好</summary>
+            <div class="social-options">
+              <label class="toggle"><input type="checkbox" id="show-online">显示我在线</label>
+              <label class="field">我的角色<select id="online-role"><option value="either">都可以</option><option value="controller">领拍者</option><option value="receiver">跟拍者</option></select></label>
+              <p>开启后，在线列表会展示昵称、角色、公开性别和对局偏好。</p>
+              <form id="online-limits-form" class="online-limits-form"></form>
+            </div>
+          </details>
+        </div>
+        <div id="friend-sync" hidden></div>
+        <label id="friend-presence-option" class="toggle" hidden><input type="checkbox" id="share-friend-presence">允许好友收到我的上线提醒</label>
+        <div id="social-list" aria-live="polite"></div>
+      </section>
+
+      <section id="active-rooms" class="social-panel active-rooms" aria-labelledby="active-rooms-title" hidden>
+        <div class="social-heading"><h2 id="active-rooms-title" tabindex="-1">公开观战</h2>
+          <button class="icon-button" data-action="close-social" data-icon="close" aria-label="收起公开观战"></button></div>
+        <div id="active-room-list" aria-live="polite" data-loading="true"><p class="social-message">正在加载可观战的房间…</p></div>
+      </section>
+      <section id="round-history" class="social-panel" aria-labelledby="history-title" hidden>
+        <div class="social-heading"><h2 id="history-title" tabindex="-1">对局历史</h2>
+          <button class="icon-button" data-action="close-social" data-icon="close" aria-label="收起对局历史"></button></div>
+        <div class="history-actions" role="group" aria-label="历史分类">
+          <button type="button" class="button outline" data-history="rounds" aria-pressed="true">双人记录</button>
+          <button type="button" class="button outline" data-history="partners" aria-pressed="false">一起玩过</button>
+          <button type="button" class="button outline" data-history="practice" aria-pressed="false">单人练习</button>
+        </div>
+        <form class="history-search">
+          <label class="field">搭档昵称<input type="search" maxlength="40" enterkeyhint="search" autocomplete="off" placeholder="按昵称搜索"></label>
+          <button type="submit" class="button outline">搜索</button>
+        </form>
+        <ul class="history-list"></ul>
+        <p class="history-status social-message" role="status"></p>
+        <button type="button" class="button outline history-more" hidden>加载更多</button>
+        <button type="button" class="button outline history-retry" hidden>重试</button>
+      </section>
+    </div>
+    <section id="room" class="room" aria-label="游戏房间" hidden></section>
+    <section id="watch-room" class="watch-panel" aria-label="旁观视角" hidden></section>
+  </main>
+
+  <footer class="footer shell">
+    <div class="footer-note"><span class="footer-shield" data-icon="shield"></span><span><strong>自在互动，随时退出</strong><small>仅限 18 岁及以上玩家 · 麦克风默认关闭</small></span></div>
+    <button class="text-button" data-action="privacy">隐私与语音 <span data-icon="arrow"></span></button>
+  </footer>
+  <dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <audio id="remote-audio" autoplay playsinline></audio>
+</body>
+</html>
