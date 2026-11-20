@@ -56,6 +56,7 @@ npm test
 按 [MIT 许可](LICENSE) 发布。
 
 
-上面的内容源自作者erhaerha66，网页https://github.com/erhaerha66/duet-rhythm-plus，本人仅提供win版本一键安装，望周知。
+上面的内容源自作者erhaerha66，网页https://github.com/erhaerha66/duet-rhythm-plus
+本人仅提供win版本一键安装，望周知。
 
 
