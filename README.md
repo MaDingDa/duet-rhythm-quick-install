@@ -6,7 +6,7 @@ Windows 一键版基于 [erhaerha66/duet-rhythm-plus](https://github.com/erhaerh
 
 ## Windows 一键版
 
-点右上角[Code → Download ZIP](https://github.com/MaDingDa/duet-rhythm-plus-windows/archive/refs/heads/main.zip) 可以一次下载源码和 Windows 安装启动程序。解压后双击根目录的 `DuetRhythmPlus-Windows-x64.exe` 即可。
+点[Code → Download ZIP](https://github.com/MaDingDa/duet-rhythm-plus-windows/archive/refs/heads/main.zip) 可以一次下载源码和 Windows 安装启动程序。解压后双击根目录的 `DuetRhythmPlus-Windows-x64.exe` 即可。
 
 在本仓库的 Releases 下载 `DuetRhythmPlus-Windows-x64.exe`，双击即可。首次运行会安装到当前用户目录，随后自动打开系统默认浏览器。以后可再次双击同一个 EXE，或在开始菜单搜索「双人节拍」。使用时保留启动窗口，结束时点「停止并退出」。EXE 自带 Node.js。
 
